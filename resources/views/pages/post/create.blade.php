@@ -29,12 +29,12 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label>Judul Berita</label>
-                        <input type="text" name="title" class="form-control" placeholder="Masukan Judul Berita ...">
+                        <input type="text" name="title" class="form-control" placeholder="Masukan Judul Berita ..." required>
                     </div>
                     <div class="form-group">
                         <label for="customFile">Cover Berita</label>
                         <div class="custom-file">
-                            <input type="file" name="cover" accept="image/*" class="custom-file-input" id="customFile">
+                            <input type="file" name="cover" accept="image/*" class="custom-file-input" id="customFile" required>
                             <label class="custom-file-label" for="customFile">Choose file</label>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                     </div>
                     <div class="form-group">
                         <label>Isi Berita</label>
-                        <textarea class="form-control" name="isi_berita" rows="3"></textarea>
+                        <textarea class="form-control" name="body" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="card-footer">

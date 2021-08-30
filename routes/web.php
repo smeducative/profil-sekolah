@@ -16,15 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::middleware(['auth'])->prefix('admin')->group(function () {
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-Route::middleware(['auth'])->group(function () {
+    Route::view('/', 'dashboard')->name('dashboard');
 
     Route::prefix('artikel')->group(function () {
         Route::get('/', [PostController::class, 'index'])->name('post.index');

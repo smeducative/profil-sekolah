@@ -32,11 +32,15 @@ class PostController extends Controller
             'body'  => ['required']
         ]);
 
+        if ($request->hasFile('cover')) {
+            $dir = $request->file('cover')->storePubliclyAs('upload', Str::slug($request->file('cover')->getClientOriginalName()));
+        }
+
         Post::create([
             'user_id'   => auth()->id(),
             'title'     => $request->title,
             'slug'      => Str::slug($request->title . '-' . Str::random(5)),
-            'cover'     => $request->cover,
+            'cover'     => $dir,
             'body'      => $request->body
         ]);
 
