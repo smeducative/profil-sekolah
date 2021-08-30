@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Buat artikel baru')
+@section('title', 'Edit ' . $post->title)
 
 @section('content')
     <section class="content-header">
@@ -20,8 +20,9 @@
     </section>
 
     <section class="content">
-        <form role="form" enctype="multipart/form-data" method="POST" action="{{ route('post.create') }}">
+        <form role="form" enctype="multipart/form-data" method="POST" action="{{ route('post.update', $post->slug) }}">
             @csrf
+            @method('put')
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Tambah Berita</h3>
@@ -29,31 +30,25 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label>Judul Berita</label>
-                        <input type="text" name="title" class="form-control" placeholder="Masukan Judul Berita ..." required>
+                        <input type="text" name="title" class="form-control" placeholder="Masukan Judul Berita ..." value="{{ $post->title }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Slug</label>
+                        <input type="text" name="slug" class="form-control" placeholder="slug ..." value="{{ $post->slug }}" required>
                     </div>
                     <div class="form-group">
                         <label for="customFile">Cover Berita</label>
-                        <div class="custom-file">
-                            <input type="file" name="cover" accept="image/*" class="custom-file-input" id="customFile" required>
-                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        <div class="d-block">
+                            <img src="{{ \Storage::url($post->cover) }}" alt="">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>Tanggal Berita</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                                    </div>
-                                    <input type="text" name="published_at" class="form-control" value="{{ now()->format('d m Y H:i') }}" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy HH:MM" data-mask>
-                                </div>
-                            </div>q
+                        <div class="custom-file">
+                            <input type="file" name="cover" accept="image/*" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Isi Berita</label>
-                        <textarea class="form-control" name="body" rows="3"></textarea>
+                        <textarea class="form-control" name="body" rows="3" required>{{ $post->body }}</textarea>
                     </div>
                 </div>
                 <div class="card-footer">

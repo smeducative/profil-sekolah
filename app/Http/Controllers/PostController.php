@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -36,7 +37,7 @@ class PostController extends Controller
             'user_id'   => auth()->id(),
             'title'     => $request->title,
             'slug'      => Str::slug($request->title . '-' . Str::random(5)),
-            'cover'     => $request->cover,
+            'cover'     => $request->file('cover')->storeAs('upload', $request->file('cover')->getClientOriginalName(), 'public'),
             'body'      => $request->body
         ]);
 
@@ -50,22 +51,32 @@ class PostController extends Controller
         return view('pages.post.edit', compact('post'));
     }
 
-    public function update(Post $post)
+    public function update(Request $request, Post $post)
     {
         request()->validate([
             'title' => ['required'],
             'body'  => ['required']
         ]);
 
-        $post->update(request()->all());
+        $post->title = $request->title;
+        $post->slug = Str::slug($request->slug);
+        $post->body = $request->body;
+
+        if ($request->hasFile('cover')) {
+            $$post->cover = $request->file('cover')->storeAs('upload', $request->file('cover')->getClientOriginalName(), 'public');
+        }
+
+        $post->save();
 
         session()->flash('success', 'Post berhasil di update');
 
-        return back();
+        return redirect()->route('post.index');
     }
 
     public function delete(Post $post)
     {
+        Storage::delete($post->cover);
+
         $post->delete();
 
         session()->flash('success', 'Post berhasil di hapus');
