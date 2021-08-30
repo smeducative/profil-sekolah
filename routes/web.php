@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+require __DIR__ . '/auth.php';
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -21,4 +24,17 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::middleware(['auth'])->group(function () {
+
+    Route::prefix('artikel')->group(function () {
+        Route::get('/', [PostController::class, 'index'])->name('post.index');
+
+        Route::get('/store', [PostController::class, 'store'])->name('post.store');
+        Route::post('/create', [PostController::class, 'create'])->name('post.create');
+
+        Route::get('/edit/{post:slug}', [PostController::class, 'edit'])->name('post.edit');
+        Route::put('/update/{post:slug}', [PostController::class, 'update'])->name('post.update');
+
+        Route::delete('/delete/{post:slug}', [PostController::class, 'delete'])->name('post.delete');
+    });
+});
