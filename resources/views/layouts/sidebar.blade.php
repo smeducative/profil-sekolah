@@ -61,7 +61,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('post.index') }}" class="nav-link {{ request()->routeIs('post.index') || request()->routeIs('post.store') ? 'active' : '' }}">
+            <a href="{{ route('post.index') }}" class="nav-link {{ request()->routeIs('post.index') || request()->routeIs('post.store') || request()->routeIs('post.edit') ? 'active' : '' }}">
               <i class="nav-icon fas fa-pen"></i>
               <p>
                 Artikel

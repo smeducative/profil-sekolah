@@ -34,91 +34,24 @@
     @endif
 
     <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Artikel List</h3>
-                <div class="card-tools">
-                    <a href="{{ route('post.store') }}" class="btn btn-primary">
-                        <i class="fas fa-plus mr-1"></i>
-                        Buat artikel baru
-                    </a>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body p-0">
-                @if($posts->count())
-
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>Cover</th>
-                      <th width="35%">Judul</th>
-                      <th>Penulis</th>
-                      <th>Pada</th>
-                      <th>Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      @foreach ($posts as $post)
-
-                    <tr>
-                        <td class="p-1" width="18%">
-                            <img src="{{ \Storage::url($post->cover) }}" style="max-width: 180px; max-height:150px;">
-                        </td>
-                        <td>
-                            <a href="#">
-                                {{ $post->title }}
-                            </a> <br>
-                            <small class="text-muted">
-                                {{ $post->slug }}
-                            </small>
-                        </td>
-                        <td>
-                          {{ $post->user->name }}
-                        </td>
-                        <td> {{ $post->created_at->translatedFormat('D, d F Y H:i') }} </td>
-                        <td>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                                <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu" role="menu" style="">
-                                    <a href="{{ route('post.edit', $post->slug) }}" class="dropdown-item">
-                                        <i class="fas fa-pen mr-1"></i>
-                                        edit
-                                    </a>
-                                    <a href="#" onclick="return confirm('yakin mau hapus post ini?') ? document.getElementById('d-post-{{ $post->id }}').submit() : false" class="dropdown-item text-danger">
-                                        <div class="i fas fa-trash mr-1"></div>
-                                        hapus
-                                    </a>
-                                </div>
-                            </div>
-
-                            <form action="{{ route('post.delete', $post->slug) }}" id="d-post-{{ $post->id }}" method="POST">
-                                @csrf
-                                @method('delete')
-                            </form>
-                        </td>
-                    </tr>
-                      @endforeach
-                  </tbody>
-                </table>
-                @else
-                <div class="px-5 py-3">
-                    Belum ada post tersedia
-                </div>
-                @endif
-              </div>
-              <!-- /.card-body -->
-            </div>
+        <div class="card-header">
+        <h3 class="card-title">Artikel List</h3>
+        <div class="card-tools">
+            <a href="{{ route('post.store') }}" class="btn btn-primary">
+                <i class="fas fa-plus mr-1"></i>
+                Buat artikel baru
+            </a>
+        </div>
         </div>
         <!-- /.card-header -->
-        <div class="card-body p-0 table-responsive">
+        <div class="card-body p-0">
+        @if($posts->count())
+
         <table class="table table-striped">
             <thead>
             <tr>
-                <th style="width: 10px">#</th>
                 <th>Cover</th>
-                <th style="width: 40%">Judul</th>
+                <th width="35%">Judul</th>
                 <th>Penulis</th>
                 <th>Pada</th>
                 <th>Aksi</th>
@@ -127,51 +60,62 @@
             <tbody>
                 @foreach ($posts as $post)
 
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>
-                        <img src="{{ \Storage::url($post->cover) }}" alt="">
-                    </td>
-                    <td>{{ $post->title }}</td>
-                    <td>
-                        {{ $post->user->name }}
-                    </td>
-                    <td>{{ $post->created_at }}</td>
-                    <td>
-                        <a href="" class="btn btn-primary">
-                            <i class="fas fa-pen mr-1"></i>
-                            edit</a>
-                        <a href="" class="btn btn-danger">
-                            <i class="fas fa-trash mr-1"></i>
-                            delete</a>
-                    </td>
-                </tr>
+            <tr>
+                <td class="p-1" width="18%">
+                    <img src="{{ \Storage::url($post->cover) }}" style="max-width: 180px; max-height:150px;">
+                </td>
+                <td>
+                    <a href="#">
+                        {{ $post->title }}
+                    </a> <br>
+                    <small class="text-muted">
+                        {{ $post->slug }}
+                    </small>
+                </td>
+                <td>
+                    {{ $post->user->name }}
+                </td>
+                <td> {{ $post->created_at->translatedFormat('D, d F Y H:i') }} </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu" role="menu" style="">
+                            <a href="{{ route('post.edit', $post->slug) }}" class="dropdown-item">
+                                <i class="fas fa-pen mr-1"></i>
+                                edit
+                            </a>
+                            <a href="#" onclick="return confirm('yakin mau hapus post ini?') ? document.getElementById('d-post-{{ $post->id }}').submit() : false" class="dropdown-item text-danger">
+                                <div class="i fas fa-trash mr-1"></div>
+                                hapus
+                            </a>
+                        </div>
+                    </div>
+
+                    <form action="{{ route('post.delete', $post->slug) }}" id="d-post-{{ $post->id }}" method="POST">
+                        @csrf
+                        @method('delete')
+                    </form>
+                </td>
+            </tr>
                 @endforeach
             </tbody>
         </table>
+        @else
+        <div class="px-5 py-3">
+            Belum ada post tersedia
         </div>
+        @endif
+        </div>
+        <!-- /.card-body -->
+            
         <!-- /.card-body -->
         <div class="card-footer">
             {{ $posts->links() }}
         </div>
     </div>
     <!-- /.card -->
-
-    @else
-    <div class="card">
-        <div class="p-5">
-            <h2>
-                belum ada post
-            </h2>
-
-            <a href="{{ route('post.store') }}" class="btn btn-primary">
-                    <i class="fas fa-plus mr-1"></i>
-                    Buat artikel baru
-                </a>
-
-        </div>
-    </div>
-    @endif
 
 </section>
 <!-- /.content -->
